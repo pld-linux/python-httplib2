@@ -9,6 +9,8 @@ Source0:	http://bitworking.org/projects/httplib2/dist/httplib2-%{version}.tar.gz
 # Source0-md5:	781110e8031bdbe753d80532cfbe1bc4
 URL:		http://bitworking.org/projects/httplib2/
 BuildRequires:	python >= 2.3
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
