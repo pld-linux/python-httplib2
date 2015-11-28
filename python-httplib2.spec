@@ -84,26 +84,19 @@ cech pomijanych przez inne biblioteki. Obsługuje:
 %prep
 %setup -q -n httplib2-%{version}
 
+%build
+%py_build
+
 %if %{with python3}
-rm -rf build-3
-set -- *
-install -d build-3
-cp -a "$@" build-3
-find build-3 -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
+%py3_build
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install \
-	--root=$RPM_BUILD_ROOT \
-	--optimize=2
+%py_install
 
 %if %{with python3}
-cd build-3
-%{__python3} setup.py install \
-	--root=$RPM_BUILD_ROOT \
-	--optimize=2
-cd ..
+%py3_install
 %endif
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
