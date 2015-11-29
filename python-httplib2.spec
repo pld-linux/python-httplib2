@@ -14,6 +14,7 @@ Source0:	http://httplib2.googlecode.com/files/httplib2-%{version}.zip
 URL:		http://bitworking.org/projects/httplib2/
 BuildRequires:	python >= 2.3
 BuildRequires:	python-modules
+BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
 %if %{with python3}
 BuildRequires:	python3-devel
