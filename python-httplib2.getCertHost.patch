@@ -1,0 +1,21 @@
+diff -up ./python2/httplib2/__init__.py.getCertHost ./python2/httplib2/__init__.py
+--- ./python2/httplib2/__init__.py.getCertHost	2012-05-03 17:16:33.834155219 +1000
++++ ./python2/httplib2/__init__.py	2012-06-21 18:19:33.804660257 +1000
+@@ -942,11 +942,12 @@ class HTTPSConnectionWithTimeout(httplib
+           list: A list of valid host globs.
+         """
+         if 'subjectAltName' in cert:
+-            return [x[1] for x in cert['subjectAltName']
+-                    if x[0].lower() == 'dns']
+-        else:
+-            return [x[0][1] for x in cert['subject']
+-                    if x[0][0].lower() == 'commonname']
++            # Patch from richardfearn@gmail.com
++	    return [x[1] for x in cert['subjectAltName']
++                if x[0].lower() == "dns"]
++
++        return [x[0][1] for x in cert['subject']
++            if x[0][0].lower() == 'commonname']
+ 
+     def _ValidateCertificateHostname(self, cert, hostname):
+         """Validates that a given hostname is valid for an SSL certificate.

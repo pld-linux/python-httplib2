@@ -1,0 +1,31 @@
+diff -Nur httplib2-0.9.orig/python2/httplib2/__init__.py httplib2-0.9/python2/httplib2/__init__.py
+--- httplib2-0.9.orig/python2/httplib2/__init__.py	2014-04-14 06:52:57.000000000 -0600
++++ httplib2-0.9/python2/httplib2/__init__.py	2014-05-23 21:17:02.082118837 -0600
+@@ -191,8 +191,10 @@
+     CA_CERTS = ca_certs_locater.get()
+ except ImportError:
+     # Default CA certificates file bundled with httplib2.
+-    CA_CERTS = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__ )), "cacerts.txt")
++#    CA_CERTS = os.path.join(
++#        os.path.dirname(os.path.abspath(__file__ )), "cacerts.txt")
++# Use Fedora system-wide shared certificate store for security, consistency.
++    CA_CERTS = "/etc/pki/tls/certs/ca-bundle.crt"
+ 
+ # Which headers are hop-by-hop headers by default
+ HOP_BY_HOP = ['connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization', 'te', 'trailers', 'transfer-encoding', 'upgrade']
+--- httplib2-0.9/python3/httplib2/__init__.py	2014-04-14 05:52:57.000000000 -0700
++++ httplib2-0.9/python3/httplib2/__init__.py.new	2015-01-12 17:22:19.815505848 -0800
+@@ -124,8 +124,10 @@
+ HOP_BY_HOP = ['connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization', 'te', 'trailers', 'transfer-encoding', 'upgrade']
+ 
+ # Default CA certificates file bundled with httplib2.
+-CA_CERTS = os.path.join(
+-        os.path.dirname(os.path.abspath(__file__ )), "cacerts.txt")
++#CA_CERTS = os.path.join(
++#        os.path.dirname(os.path.abspath(__file__ )), "cacerts.txt")
++# Use Fedora system-wide shared certificate store for security, consistency.
++CA_CERTS = "/etc/pki/tls/certs/ca-bundle.crt"
+ 
+ def _get_end2end_headers(response):
+     hopbyhop = list(HOP_BY_HOP)

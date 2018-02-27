@@ -5,13 +5,17 @@
 Summary:	A comprehensive HTTP client library
 Summary(pl.UTF-8):	Obszerna biblioteka klienta HTTP
 Name:		python-httplib2
-Version:	0.8
-Release:	6
+Version:	0.10.3
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
-Source0:	http://httplib2.googlecode.com/files/httplib2-%{version}.zip
-# Source0-md5:	0803da81fe1bb92f864715665defe65f
-URL:		http://bitworking.org/projects/httplib2/
+Source0:	https://github.com/httplib2/httplib2/archive/v%{version}.tar.gz
+# Source0-md5:	1be116cd19035de6de0de0f3027c643d
+Patch0:		%{name}.certfile.patch
+Patch1:		%{name}.getCertHost.patch
+Patch2:		%{name}.rfc2459.patch
+Patch3:		%{name}-0.9-proxy-http.patch
+URL:		https://github.com/httplib2/httplib2
 BuildRequires:	python >= 2.3
 BuildRequires:	python-modules
 BuildRequires:	rpmbuild(macros) >= 1.710
@@ -22,6 +26,7 @@ BuildRequires:	python3-distribute
 BuildRequires:	python3-modules
 %endif
 BuildRequires:	rpm-pythonprov
+Requires:	ca-certificates
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -84,6 +89,10 @@ cech pomijanych przez inne biblioteki. Obsługuje:
 
 %prep
 %setup -q -n httplib2-%{version}
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %py_build
@@ -95,9 +104,11 @@ cech pomijanych przez inne biblioteki. Obsługuje:
 %install
 rm -rf $RPM_BUILD_ROOT
 %py_install
+rm $RPM_BUILD_ROOT%{py_sitescriptdir}/httplib2/cacerts.txt
 
 %if %{with python3}
 %py3_install
+rm $RPM_BUILD_ROOT%{py3_sitescriptdir}/httplib2/cacerts.txt
 %endif
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
@@ -108,12 +119,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README CHANGELOG
+%doc README.md CHANGELOG
 %{py_sitescriptdir}/httplib2
 %{py_sitescriptdir}/httplib2-%{version}-py*.egg-info
 
+%if %{with python3}
 %files -n python3-httplib2
 %defattr(644,root,root,755)
 %doc python3/README CHANGELOG
 %{py3_sitescriptdir}/httplib2
 %{py3_sitescriptdir}/httplib2-%{version}-py*.egg-info
+%endif

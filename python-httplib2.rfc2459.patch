@@ -1,0 +1,19 @@
+diff -up ./python2/httplib2/__init__.py.orig ./python2/httplib2/__init__.py
+--- ./python2/httplib2/__init__.py.orig	2012-07-27 18:35:59.215300471 +1000
++++ ./python2/httplib2/__init__.py	2012-07-27 18:36:30.697287505 +1000
+@@ -943,8 +943,13 @@ class HTTPSConnectionWithTimeout(httplib
+         """
+         if 'subjectAltName' in cert:
+             # Patch from richardfearn@gmail.com
+-	    return [x[1] for x in cert['subjectAltName']
++            # RFC 2459 states that subjectAltName may contain:
++            # either DNS, email, IP or URI
++            # email, URI,
++            hosts=[x[1] for x in cert['subjectAltName']
+                 if x[0].lower() == "dns"]
++	    if hosts:
++		return hosts
+
+         return [x[0][1] for x in cert['subject']
+             if x[0][0].lower() == 'commonname']
+

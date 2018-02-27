@@ -1,0 +1,16 @@
+diff -Nur httplib2-0.9.orig/python2/httplib2/__init__.py httplib2-0.9/python2/httplib2/__init__.py
+--- httplib2-0.9.orig/python2/httplib2/__init__.py	2015-04-03 12:56:04.834370332 -0600
++++ httplib2-0.9/python2/httplib2/__init__.py	2015-04-03 12:58:16.441925454 -0600
+@@ -838,7 +838,11 @@
+     else:
+         port = dict(https=443, http=80)[method]
+ 
+-    proxy_type = 3 # socks.PROXY_TYPE_HTTP
++    if method == 'http':
++       proxy_type = 4 # socks.PROXY_TYPE_HTTP_NO_TUNNEL
++    else:
++       proxy_type = 3 # socks.PROXY_TYPE_HTTP
++
+     return ProxyInfo(
+         proxy_type = proxy_type,
+         proxy_host = host,
