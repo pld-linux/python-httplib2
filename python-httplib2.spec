@@ -5,12 +5,12 @@
 Summary:	A comprehensive HTTP client library
 Summary(pl.UTF-8):	Obszerna biblioteka klienta HTTP
 Name:		python-httplib2
-Version:	0.10.3
+Version:	0.11.3
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 Source0:	https://github.com/httplib2/httplib2/archive/v%{version}.tar.gz
-# Source0-md5:	1be116cd19035de6de0de0f3027c643d
+# Source0-md5:	b5dba454b541087cc5f674fed74916b4
 Patch0:		%{name}.certfile.patch
 Patch1:		%{name}.getCertHost.patch
 Patch2:		%{name}.rfc2459.patch
