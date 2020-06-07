@@ -120,7 +120,7 @@ cech pomijanych przez inne biblioteki. Obsługuje:
 
 %if %{with tests}
 PYTHONPATH=$(pwd)/build-2/lib \
-%{__python} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_with_certifi_removed_from_modules and not test_noproxy_star'
+%{__python} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_ipv6 and not test_with_certifi_removed_from_modules and not test_noproxy_star'
 %endif
 %endif
 
@@ -130,7 +130,7 @@ PYTHONPATH=$(pwd)/build-2/lib \
 %if %{with tests}
 # in python3 implementation system socks module is preferred over httplib2.socks, and the first is incompatible with test_socks5_auth
 PYTHONPATH=$(pwd)/build-3/lib \
-%{__python3} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_with_certifi_removed_from_modules and not test_noproxy_star and not test_server_not_found_error_is_raised_for_invalid_hostname and not test_socks5_auth'
+%{__python3} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_ipv6 and not test_with_certifi_removed_from_modules and not test_noproxy_star and not test_server_not_found_error_is_raised_for_invalid_hostname and not test_socks5_auth'
 %endif
 %endif
 
