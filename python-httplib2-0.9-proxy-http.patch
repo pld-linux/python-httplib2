@@ -1,7 +1,7 @@
-diff -Nur httplib2-0.9.orig/python2/httplib2/__init__.py httplib2-0.9/python2/httplib2/__init__.py
---- httplib2-0.9.orig/python2/httplib2/__init__.py	2015-04-03 12:56:04.834370332 -0600
-+++ httplib2-0.9/python2/httplib2/__init__.py	2015-04-03 12:58:16.441925454 -0600
-@@ -896,7 +896,10 @@ def proxy_info_from_url(url, method='htt
+diff -urNp -x '*.orig' httplib2-0.18.1.org/python2/httplib2/__init__.py httplib2-0.18.1/python2/httplib2/__init__.py
+--- httplib2-0.18.1.org/python2/httplib2/__init__.py	2020-05-20 21:56:40.000000000 +0200
++++ httplib2-0.18.1/python2/httplib2/__init__.py	2021-03-04 20:42:47.647805415 +0100
+@@ -1122,7 +1122,10 @@ def proxy_info_from_url(url, method="htt
      else:
          port = dict(https=443, http=80)[method]
  
@@ -11,6 +11,5 @@ diff -Nur httplib2-0.9.orig/python2/httplib2/__init__.py httplib2-0.9/python2/ht
 +    else:
 +        proxy_type = 3  # socks.PROXY_TYPE_HTTP
      pi = ProxyInfo(
-         proxy_type = proxy_type,
-         proxy_host = host,
-
+         proxy_type=proxy_type,
+         proxy_host=host,
