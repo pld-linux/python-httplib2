@@ -8,16 +8,15 @@
 Summary:	A comprehensive HTTP client library
 Summary(pl.UTF-8):	Obszerna biblioteka klienta HTTP
 Name:		python-httplib2
-Version:	0.18.1
-Release:	5
+Version:	0.20.4
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://github.com/httplib2/httplib2/releases
 Source0:	https://github.com/httplib2/httplib2/archive/v%{version}/httplib2-%{version}.tar.gz
-# Source0-md5:	883f17828619757836ff510c42a7cca8
+# Source0-md5:	f62908a43ea18cd81dd71e4380b869dd
 Patch0:		%{name}.certfile.patch
 Patch1:		%{name}-0.9-proxy-http.patch
-Patch2:		%{name}-mock.patch
 URL:		https://github.com/httplib2/httplib2
 %if %{with python2}
 BuildRequires:	python-modules >= 1:2.7
@@ -25,9 +24,14 @@ BuildRequires:	python-setuptools
 %if %{with tests}
 BuildRequires:	python-future >= 0.16.0
 BuildRequires:	python-mock >= 2.0.0
-BuildRequires:	python-pytest >= 3.2.1
+BuildRequires:	python-pyparsing >= 2.4.2
+BuildRequires:	python-pyparsing < 3
+BuildRequires:	python-pytest >= 4.6.11
 BuildRequires:	python-pytest-cov >= 2.5.1
-BuildRequires:	python-pytest-timeout >= 1.2.0
+BuildRequires:	python-pytest-forked >= 1.3.0
+# >= 2.12.1
+BuildRequires:	python-pytest-randomly >= 1.2.3
+BuildRequires:	python-pytest-timeout >= 1.4.2
 BuildRequires:	python-six >= 1.10.0
 %endif
 %endif
@@ -35,9 +39,14 @@ BuildRequires:	python-six >= 1.10.0
 BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-setuptools
 %if %{with tests}
-BuildRequires:	python3-pytest >= 3.2.1
+BuildRequires:	python3-pyparsing >= 2.4.2
+BuildRequires:	python3-pyparsing < 4
+BuildRequires:	python3-pytest >= 6.1.2
 BuildRequires:	python3-pytest-cov >= 2.5.1
-BuildRequires:	python3-pytest-timeout >= 1.2.0
+# >= 2.12.1
+BuildRequires:	python3-pytest-forked >= 1.3.0
+BuildRequires:	python3-pytest-randomly >= 1.2.3
+BuildRequires:	python3-pytest-timeout >= 1.4.2
 BuildRequires:	python3-six >= 1.10.0
 %endif
 %endif
@@ -112,13 +121,14 @@ cech pomijanych przez inne biblioteki. Obsługuje:
 %setup -q -n httplib2-%{version}
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %if %{with python2}
 %py_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+PYTEST_PLUGINS=pytest_cov.plugin,pytest_timeout \
 PYTHONPATH=$(pwd)/build-2/lib \
 %{__python} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_ipv6 and not test_with_certifi_removed_from_modules and not test_noproxy_star'
 %endif
@@ -129,6 +139,8 @@ PYTHONPATH=$(pwd)/build-2/lib \
 
 %if %{with tests}
 # in python3 implementation system socks module is preferred over httplib2.socks, and the first is incompatible with test_socks5_auth
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+PYTEST_PLUGINS=pytest_cov.plugin,pytest_timeout \
 PYTHONPATH=$(pwd)/build-3/lib \
 %{__python3} -m pytest tests -k 'not test_certs_file_from_builtin and not test_certs_file_from_environment and not test_ipv6 and not test_with_certifi_removed_from_modules and not test_noproxy_star and not test_server_not_found_error_is_raised_for_invalid_hostname and not test_socks5_auth'
 %endif
